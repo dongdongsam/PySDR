@@ -1,0 +1,56 @@
+<h1 style="text-align: center">PySDR: 파이썬을 이용한 SDR과 DSP 가이드</h1>
+
+<p style="text-align: center">
+  by
+  <a class="reference internal" href="content/about_author.html#author-chapter">
+    <span class="std std-ref">Dr. Marc Lichtman</span>
+  </a>
+  -
+  <a class="reference external" href="mailto:pysdr&#37;&#52;&#48;vt&#46;edu" rel="noopener noreferrer" target="_blank">
+    pysdr<span>&#64;</span>vt<span>&#46;</span>edu
+  </a>
+</p>
+
+<h4 style="line-height: 1.4">
+  오픈소스 교과서인 PySDR(라이브러리가 아니에요!)에 오신것을 환영합니다! PySDR은 무선 통신과 SDR을 다이어그램, 애니메이션, 파이썬 예시 코드 등을 통해서 소개해드립니다. FFT에서 파이썬을 이용해 SDR에서 신호를 받기 위한 디지털 모듈레이션 까지, PySDR은 소개해 드립니다!
+</h4>
+
+<h4 style="line-height: 1.4">
+  PySDR의 목표는 대게 수학적이고 파편화된 주제들에 대해서 이해를 돕기 위함입니다. PySDR을 만들기 위한 모든 자료는 오픈 소스이고,
+  <a class="reference external" href="https://github.com/777arc/PySDR" rel="noopener noreferrer" target="_blank">여기</a>
+  에서 찾으실 수 있습니다.
+</h4>
+
+<h4>
+  <a class="reference internal" href="content/intro.html#intro-chapter"><span class="std std-ref">Chapter 1: Introduction</span></a>
+  에서 교과서의 목차와 주요 타겟을 보실 수 있습니다.
+</h4>
+
+<h4>
+  일단 RF 신호 처리에 대해서 쉽게 맛보기 위해서, 가우시안 노이즈에 대해서 시간 영역과 주파수 영역으로 표현한 시뮬레이션을 가지고 한번 놀아보세요!
+</h4>
+
+<div>
+  <input type="range" min="-0.4" max="0.4" step="0.0001" value="0.01" class="slider" id="freq" />
+  <span id="freq_value"></span>
+  <label>[Hz] - Tone Frequency</label>
+</div>
+<div>
+  <input type="range" min="-20" max="10" step="0.1" value="0" class="slider" id="noise_ampl_dB" />
+  <span id="noise_value"></span>
+  <label>[dB] - Noise Amplitude</label>
+</div>
+<div>
+  <canvas width="2048" height="800" id="freq_plot" style="width: 512px; height: 200px; border: 0px; image-rendering: auto"></canvas>
+</div>
+<br />
+<br />
+<div>
+  <canvas width="2048" height="800" id="time_plot" style="width: 512px; height: 200px; border: 0px; image-rendering: auto"></canvas>
+</div>
+
+<script>
+  homepage_app();
+</script>
+
+<br />
