@@ -31,7 +31,7 @@ We will also switch to using a generalized steering vector equation, which is no
 
 .. math::
 
-   s = e^{-2j \pi \boldsymbol{p} u / \lambda}
+   s = e^{2j \pi \boldsymbol{p} u / \lambda}
 
 where :math:`\boldsymbol{p}` is the set of element x/y/z positions in meters (size :code:`Nr` x 3) and :math:`u` is the direction we want to point at as a unit vector in x/y/z (size 3x1).  In Python this looks like:
 
@@ -39,7 +39,7 @@ where :math:`\boldsymbol{p}` is the set of element x/y/z positions in meters (si
 
  def steering_vector(pos, dir):
      #                           Nrx3  3x1   
-     return np.exp(-2j * np.pi * pos @ dir / wavelength) # outputs Nr x 1 (column vector)
+     return np.exp(2j * np.pi * pos @ dir / wavelength) # outputs Nr x 1 (column vector)
 
 Let's try using this generalized steering vector equation with a simple ULA with 4 elements, to make the connection back to what we have previously learned. We will now represent :code:`d` in meters instead of relative to wavelength.  We will place the elements along the y-axis:
 
@@ -129,9 +129,9 @@ Visualizing the beam pattern associated with these weights is a little more comp
     for i, theta_i in enumerate(theta_scan):
         for j, phi_i in enumerate(phi_scan):
             a = steering_vector(pos, get_unit_vector(theta_i, phi_i)) # array factor
-            results[i, j] = np.abs(w.conj().T @ a)[0,0] # power in signal, in dB
+            results[i, j] = np.abs(w.conj().T @ a)[0,0] # power in signal, looks better as linear
     plt.imshow(results.T, extent=(theta_scan[0]*180/np.pi, theta_scan[-1]*180/np.pi, phi_scan[0]*180/np.pi, phi_scan[-1]*180/np.pi), origin='lower', aspect='auto', cmap='viridis')
-    plt.colorbar(label='Power [dB]')
+    plt.colorbar(label='Power [linear]')
     plt.scatter(theta*180/np.pi, phi*180/np.pi, color='red', s=50) # Add a dot at the correct theta/phi
     plt.xlabel('Azimuth angle [degrees]')
     plt.ylabel('Elevation angle [degrees]')
@@ -341,7 +341,7 @@ Next we will perform DOA estimation using the MUSIC algorithm.  We will use the 
 		V[:, i] = v[:, i]
 	for i, theta_i in enumerate(theta_scan):
 		for j, phi_i in enumerate(phi_scan):
-			dir_i = get_unit_vector(theta_i, -1*phi_i)
+			dir_i = get_unit_vector(-1*theta_i, phi_i) # TODO figure out why -1* was needed to match reality
 			s = steering_vector(pos, dir_i) # 15 x 1
 			music_metric = 1 / (s.conj().T @ V @ V.conj().T @ s)
 			music_metric = np.abs(music_metric).squeeze()

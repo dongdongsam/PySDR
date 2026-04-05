@@ -7,8 +7,8 @@ d = 0.5 * wavelength # in meters
 
 # generalized steering vector equation, given element positions and a direction vector (which is a 3x1 unit vector of x,y,z)
 def steering_vector(pos, dir):
-    #                           Nrx3  3x1   
-    return np.exp(-2j * np.pi * pos @ dir / wavelength) # Nrx1 (column vector)
+    #                          Nrx3  3x1   
+    return np.exp(2j * np.pi * pos @ dir / wavelength) # Nrx1 (column vector)
 
 # Let's start with 1D, using a 4-element ULA
 Nr = 4
@@ -187,9 +187,9 @@ if True:
     for i, theta_i in enumerate(theta_scan):
         for j, phi_i in enumerate(phi_scan):
             a = steering_vector(pos, get_unit_vector(theta_i, phi_i)) # array factor
-            results[i, j] = np.abs(w.conj().T @ a)[0,0] # power in signal, in dB
+            results[i, j] = np.abs(w.conj().T @ a)[0,0] # power in signal, looks better as linear
     plt.imshow(results.T, extent=(theta_scan[0]*180/np.pi, theta_scan[-1]*180/np.pi, phi_scan[0]*180/np.pi, phi_scan[-1]*180/np.pi), origin='lower', aspect='auto', cmap='viridis')
-    plt.colorbar(label='Power [dB]')
+    plt.colorbar(label='Power [linear]')
     plt.scatter(theta*180/np.pi, phi*180/np.pi, color='red', s=50) # Add a dot at the correct theta/phi
     plt.xlabel('Azimuth angle [degrees]')
     plt.ylabel('Elevation angle [degrees]')
